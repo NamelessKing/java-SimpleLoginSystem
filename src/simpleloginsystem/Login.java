@@ -19,6 +19,7 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     Connection connection = null;
+    
     public Login() {
         initComponents();
         connection = SqliteConnection.dbConnector();
@@ -38,15 +39,20 @@ public class Login extends javax.swing.JFrame {
         userName_jTextField = new javax.swing.JTextField();
         login_jButton = new javax.swing.JButton();
         password_jPasswordField1 = new javax.swing.JPasswordField();
+        loginIcon_jLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        userName_jLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         userName_jLabel.setText("Username");
 
+        password_jLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         password_jLabel.setText("Password");
 
         userName_jTextField.setToolTipText("");
 
+        login_jButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        login_jButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Ok-icon.png"))); // NOI18N
         login_jButton.setText("Login");
         login_jButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -56,40 +62,50 @@ public class Login extends javax.swing.JFrame {
 
         password_jPasswordField1.setToolTipText("");
 
+        loginIcon_jLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/system-login-icon.png"))); // NOI18N
+        loginIcon_jLabel.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                loginIcon_jLabelComponentAdded(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(164, 164, 164)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(userName_jLabel)
-                            .addComponent(password_jLabel))
-                        .addGap(117, 117, 117)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(userName_jTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-                            .addComponent(password_jPasswordField1)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(241, 241, 241)
-                        .addComponent(login_jButton)))
-                .addContainerGap(128, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addComponent(loginIcon_jLabel)
+                .addGap(102, 102, 102)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(userName_jLabel)
+                    .addComponent(password_jLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(userName_jTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                    .addComponent(password_jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                    .addComponent(login_jButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(58, 58, 58))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(77, 77, 77)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(userName_jLabel)
-                    .addComponent(userName_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(password_jLabel)
-                    .addComponent(password_jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50)
-                .addComponent(login_jButton)
-                .addContainerGap(140, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(userName_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(userName_jLabel))
+                                .addGap(62, 62, 62))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(password_jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(password_jLabel)))
+                        .addGap(32, 32, 32)
+                        .addComponent(login_jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(loginIcon_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         pack();
@@ -115,10 +131,15 @@ public class Login extends javax.swing.JFrame {
                 count++;
            }
            
-           if(count == 1)
+           if(count == 1){
                JOptionPane.showMessageDialog(null, "Username and password is correct");
-           else if(count > 1)
+               this.dispose();
+               EmployeeInfo empInfo = new EmployeeInfo();
+               empInfo.setVisible(true);
+           }
+           else if(count > 1){
                JOptionPane.showMessageDialog(null, "Dublicate Username and password");
+           }
            else
                JOptionPane.showMessageDialog(null, "Username and password is not correct.."
                        + "Try Again");
@@ -128,10 +149,12 @@ public class Login extends javax.swing.JFrame {
         } catch (Exception e) {
     
             JOptionPane.showMessageDialog(null, e);
-          
-        
         }
     }//GEN-LAST:event_login_jButtonActionPerformed
+
+    private void loginIcon_jLabelComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_loginIcon_jLabelComponentAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_loginIcon_jLabelComponentAdded
 
     /**
      * @param args the command line arguments
@@ -176,6 +199,7 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel loginIcon_jLabel;
     private javax.swing.JButton login_jButton;
     private javax.swing.JLabel password_jLabel;
     private javax.swing.JPasswordField password_jPasswordField1;
