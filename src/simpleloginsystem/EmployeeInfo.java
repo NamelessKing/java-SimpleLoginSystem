@@ -34,9 +34,20 @@ public class EmployeeInfo extends javax.swing.JFrame {
         loadTable_jButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         emplyeeInfo_jTable = new javax.swing.JTable();
+        eid_jLabel = new javax.swing.JLabel();
+        name_jLabel = new javax.swing.JLabel();
+        age_jLabel = new javax.swing.JLabel();
+        surname_jLabel = new javax.swing.JLabel();
+        eid_jTextField = new javax.swing.JTextField();
+        name_jTextField = new javax.swing.JTextField();
+        surname_jTextField = new javax.swing.JTextField();
+        age_jTextField = new javax.swing.JTextField();
+        save_jButton = new javax.swing.JButton();
+        update_jButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        loadTable_jButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         loadTable_jButton.setText("Load Employee Data");
         loadTable_jButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -46,23 +57,93 @@ public class EmployeeInfo extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(emplyeeInfo_jTable);
 
+        eid_jLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        eid_jLabel.setText("EID");
+        eid_jLabel.setToolTipText("");
+
+        name_jLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        name_jLabel.setText("Name");
+        name_jLabel.setToolTipText("");
+
+        age_jLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        age_jLabel.setText("Age");
+        age_jLabel.setToolTipText("");
+
+        surname_jLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        surname_jLabel.setText("Surname");
+        surname_jLabel.setToolTipText("");
+
+        save_jButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        save_jButton.setText("SAVE");
+        save_jButton.setToolTipText("");
+        save_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                save_jButtonActionPerformed(evt);
+            }
+        });
+
+        update_jButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        update_jButton.setText("UPDATE");
+        update_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                update_jButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(eid_jLabel)
+                    .addComponent(name_jLabel)
+                    .addComponent(age_jLabel)
+                    .addComponent(surname_jLabel)
+                    .addComponent(save_jButton))
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(surname_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(eid_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(name_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(age_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(update_jButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(loadTable_jButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 577, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(131, 131, 131))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(26, Short.MAX_VALUE)
                 .addComponent(loadTable_jButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(eid_jLabel)
+                            .addComponent(eid_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(33, 33, 33)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(name_jLabel)
+                            .addComponent(name_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(surname_jLabel)
+                            .addComponent(surname_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(38, 38, 38)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(age_jLabel)
+                            .addComponent(age_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(63, 63, 63)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(save_jButton)
+                            .addComponent(update_jButton)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -71,7 +152,7 @@ public class EmployeeInfo extends javax.swing.JFrame {
     private void loadTable_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadTable_jButtonActionPerformed
         // TODO add your handling code here:
         try {
-            String query = "SELECT * FROM EmployeeInfo";
+            String query = "SELECT EID,Name,Surname,Age FROM EmployeeInfo";
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet res = pst.executeQuery();
             
@@ -80,6 +161,57 @@ public class EmployeeInfo extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_loadTable_jButtonActionPerformed
+
+    private void save_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_save_jButtonActionPerformed
+        // TODO add your handling code here:
+       try {
+            String query = "insert into EmployeeInfo(EID,name,surname,age) values(?,?,?,?)";
+            PreparedStatement pst = connection.prepareStatement(query);
+            
+            pst.setString(1,eid_jTextField.getText());
+            pst.setString(2,name_jTextField.getText());
+            pst.setString(3,surname_jTextField.getText());
+            pst.setString(4,age_jTextField.getText());
+            pst.execute();
+            
+            JOptionPane.showMessageDialog(null, "Data Saved successfully");
+            //ResultSet res = pst.executeQuery();
+            
+            
+            
+            //res.close();
+            pst.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }//GEN-LAST:event_save_jButtonActionPerformed
+
+    private void update_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_jButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            String query = "UPDATE EmployeeInfo SET EID='"+eid_jTextField.getText()+
+                    "' ,name='"+name_jTextField.getText()+"' ,surname='"+surname_jTextField.getText()+
+                    "' ,age='"+age_jTextField.getText()+
+                    "' WHERE EID='"+eid_jTextField.getText()+"'";
+            PreparedStatement pst = connection.prepareStatement(query);
+            
+            
+            pst.execute();
+            
+            JOptionPane.showMessageDialog(null, "Data Udated successfully");
+            //ResultSet res = pst.executeQuery();
+            
+            
+            
+            //res.close();
+            pst.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_update_jButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -111,6 +243,7 @@ public class EmployeeInfo extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new EmployeeInfo().setVisible(true);
             }
@@ -118,8 +251,18 @@ public class EmployeeInfo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel age_jLabel;
+    private javax.swing.JTextField age_jTextField;
+    private javax.swing.JLabel eid_jLabel;
+    private javax.swing.JTextField eid_jTextField;
     private javax.swing.JTable emplyeeInfo_jTable;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton loadTable_jButton;
+    private javax.swing.JLabel name_jLabel;
+    private javax.swing.JTextField name_jTextField;
+    private javax.swing.JButton save_jButton;
+    private javax.swing.JLabel surname_jLabel;
+    private javax.swing.JTextField surname_jTextField;
+    private javax.swing.JButton update_jButton;
     // End of variables declaration//GEN-END:variables
 }

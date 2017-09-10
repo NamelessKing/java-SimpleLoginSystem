@@ -19,7 +19,6 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     Connection connection = null;
-    
     public Login() {
         initComponents();
         connection = SqliteConnection.dbConnector();
