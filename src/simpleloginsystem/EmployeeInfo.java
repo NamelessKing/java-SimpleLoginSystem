@@ -7,6 +7,7 @@ package simpleloginsystem;
 import java.sql.*;
 import javax.swing.*;
 import net.proteanit.sql.DbUtils;
+import simpleloginsystem.SqliteConnection;
 /**
  *
  * @author NamelessKing
@@ -20,6 +21,21 @@ public class EmployeeInfo extends javax.swing.JFrame {
     public EmployeeInfo() {
         initComponents();
         connection = SqliteConnection.dbConnector();
+        refreshTable();
+    }
+    
+    public void refreshTable(){
+        try {
+            String query = "SELECT EID,Name,Surname,Age FROM EmployeeInfo";
+            PreparedStatement pst = connection.prepareStatement(query);
+            ResultSet res = pst.executeQuery();
+            emplyeeInfo_jTable.setModel(DbUtils.resultSetToTableModel(res));
+            
+            pst.close();
+            res.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -44,6 +60,7 @@ public class EmployeeInfo extends javax.swing.JFrame {
         age_jTextField = new javax.swing.JTextField();
         save_jButton = new javax.swing.JButton();
         update_jButton = new javax.swing.JButton();
+        delete_jButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,25 +107,39 @@ public class EmployeeInfo extends javax.swing.JFrame {
             }
         });
 
+        delete_jButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        delete_jButton.setText("DELETE");
+        delete_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delete_jButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(eid_jLabel)
-                    .addComponent(name_jLabel)
-                    .addComponent(age_jLabel)
-                    .addComponent(surname_jLabel)
-                    .addComponent(save_jButton))
-                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(surname_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(eid_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(name_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(age_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(update_jButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(eid_jLabel)
+                            .addComponent(name_jLabel)
+                            .addComponent(age_jLabel)
+                            .addComponent(surname_jLabel))
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(surname_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(eid_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(name_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(age_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(save_jButton)
+                            .addComponent(update_jButton)
+                            .addComponent(delete_jButton))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -139,10 +170,12 @@ public class EmployeeInfo extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(age_jLabel)
                             .addComponent(age_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(63, 63, 63)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(save_jButton)
-                            .addComponent(update_jButton)))
+                        .addGap(47, 47, 47)
+                        .addComponent(save_jButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(update_jButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(delete_jButton))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
@@ -155,8 +188,10 @@ public class EmployeeInfo extends javax.swing.JFrame {
             String query = "SELECT EID,Name,Surname,Age FROM EmployeeInfo";
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet res = pst.executeQuery();
-            
             emplyeeInfo_jTable.setModel(DbUtils.resultSetToTableModel(res));
+            
+            pst.close();
+            res.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -174,10 +209,9 @@ public class EmployeeInfo extends javax.swing.JFrame {
             pst.setString(4,age_jTextField.getText());
             pst.execute();
             
+            refreshTable();
             JOptionPane.showMessageDialog(null, "Data Saved successfully");
             //ResultSet res = pst.executeQuery();
-            
-            
             
             //res.close();
             pst.close();
@@ -197,14 +231,12 @@ public class EmployeeInfo extends javax.swing.JFrame {
                     "' WHERE EID='"+eid_jTextField.getText()+"'";
             PreparedStatement pst = connection.prepareStatement(query);
             
+             pst.execute();
             
-            pst.execute();
-            
+            refreshTable();
             JOptionPane.showMessageDialog(null, "Data Udated successfully");
             //ResultSet res = pst.executeQuery();
-            
-            
-            
+       
             //res.close();
             pst.close();
             
@@ -212,6 +244,27 @@ public class EmployeeInfo extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_update_jButtonActionPerformed
+
+    private void delete_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_jButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            String query = "DELETE FROM EmployeeInfo WHERE EID='"+eid_jTextField.getText()+"' ";
+            PreparedStatement pst = connection.prepareStatement(query);
+            
+             pst.execute();
+            
+            refreshTable();
+            JOptionPane.showMessageDialog(null, "Data Deleted successfully");
+            //ResultSet res = pst.executeQuery();
+       
+            //res.close();
+            pst.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }//GEN-LAST:event_delete_jButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -253,6 +306,7 @@ public class EmployeeInfo extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel age_jLabel;
     private javax.swing.JTextField age_jTextField;
+    private javax.swing.JButton delete_jButton;
     private javax.swing.JLabel eid_jLabel;
     private javax.swing.JTextField eid_jTextField;
     private javax.swing.JTable emplyeeInfo_jTable;
