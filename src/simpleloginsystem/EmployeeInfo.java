@@ -22,14 +22,40 @@ public class EmployeeInfo extends javax.swing.JFrame {
         initComponents();
         connection = SqliteConnection.dbConnector();
         refreshTable();
+        fillComboBox();
     }
     
+    //Aggiorna la tabella con i dati del database
     public void refreshTable(){
         try {
             String query = "SELECT EID,Name,Surname,Age FROM EmployeeInfo";
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet res = pst.executeQuery();
             emplyeeInfo_jTable.setModel(DbUtils.resultSetToTableModel(res));
+            
+            pst.close();
+            res.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /*Carica nel combo box i dati di una determinata colonna(in questo caso "Name")
+    in modo che possano essere selezionati
+    */
+    public void fillComboBox(){
+        try {
+            //Query per prelevare tutti i dati nei campi del database
+            String query = "SELECT * FROM EmployeeInfo";
+            
+            //invio della query al database e la restituzione del risultato
+            PreparedStatement pst = connection.prepareStatement(query);
+            ResultSet res = pst.executeQuery();
+            
+            /*Finche ce un item nell'oggetto res,il dato viene aggiunto al combobox*/
+            while(res.next()){
+                field_jComboBox.addItem(res.getString("Name"));
+            }
             
             pst.close();
             res.close();
@@ -61,6 +87,7 @@ public class EmployeeInfo extends javax.swing.JFrame {
         save_jButton = new javax.swing.JButton();
         update_jButton = new javax.swing.JButton();
         delete_jButton = new javax.swing.JButton();
+        field_jComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -115,32 +142,42 @@ public class EmployeeInfo extends javax.swing.JFrame {
             }
         });
 
+        field_jComboBox.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        field_jComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                field_jComboBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(50, 50, 50)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(save_jButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(update_jButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(delete_jButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(eid_jLabel)
-                            .addComponent(name_jLabel)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(age_jLabel)
-                            .addComponent(surname_jLabel))
-                        .addGap(29, 29, 29)
+                            .addComponent(surname_jLabel)
+                            .addComponent(name_jLabel)
+                            .addComponent(eid_jLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(surname_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(eid_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(name_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(age_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(save_jButton)
-                            .addComponent(update_jButton)
-                            .addComponent(delete_jButton))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(age_jTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                                .addComponent(surname_jTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                                .addComponent(field_jComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(name_jTextField))
+                            .addComponent(eid_jTextField))))
+                .addGap(27, 27, 27)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -150,32 +187,36 @@ public class EmployeeInfo extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
-                .addComponent(loadTable_jButton)
+                .addContainerGap(41, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(loadTable_jButton)
+                    .addComponent(field_jComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(eid_jLabel)
                             .addComponent(eid_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(name_jLabel)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(name_jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(name_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(surname_jLabel)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(surname_jLabel)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(age_jLabel)
+                                        .addGap(54, 54, 54)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(delete_jButton)
+                                            .addComponent(update_jButton)
+                                            .addComponent(save_jButton)))
+                                    .addComponent(age_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(surname_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(38, 38, 38)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(age_jLabel)
-                            .addComponent(age_jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(47, 47, 47)
-                        .addComponent(save_jButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(update_jButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(delete_jButton))
+                        .addGap(18, 18, 18))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
@@ -231,7 +272,7 @@ public class EmployeeInfo extends javax.swing.JFrame {
                     "' WHERE EID='"+eid_jTextField.getText()+"'";
             PreparedStatement pst = connection.prepareStatement(query);
             
-             pst.execute();
+            pst.execute();
             
             refreshTable();
             JOptionPane.showMessageDialog(null, "Data Udated successfully");
@@ -251,7 +292,7 @@ public class EmployeeInfo extends javax.swing.JFrame {
             String query = "DELETE FROM EmployeeInfo WHERE EID='"+eid_jTextField.getText()+"' ";
             PreparedStatement pst = connection.prepareStatement(query);
             
-             pst.execute();
+            pst.execute();
             
             refreshTable();
             JOptionPane.showMessageDialog(null, "Data Deleted successfully");
@@ -265,6 +306,32 @@ public class EmployeeInfo extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_delete_jButtonActionPerformed
+
+    private void field_jComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_field_jComboBoxActionPerformed
+        // TODO add your handling code here:
+        try {
+            //Query per prelevare tutti i dati nei campi del database
+            String query = "SELECT * FROM EmployeeInfo WHERE Name=?";
+            
+            //invio della query al database e la restituzione del risultato
+            PreparedStatement pst = connection.prepareStatement(query);
+            pst.setString(1, (String)field_jComboBox.getSelectedItem());
+            
+            ResultSet res = pst.executeQuery();
+            
+            while(res.next()){
+                eid_jTextField.setText(res.getString("EID"));
+                name_jTextField.setText(res.getString("Name"));
+                surname_jTextField.setText(res.getString("Surname"));
+                age_jTextField.setText(res.getString("Age"));
+            }
+            
+            pst.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_field_jComboBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -310,6 +377,7 @@ public class EmployeeInfo extends javax.swing.JFrame {
     private javax.swing.JLabel eid_jLabel;
     private javax.swing.JTextField eid_jTextField;
     private javax.swing.JTable emplyeeInfo_jTable;
+    private javax.swing.JComboBox<String> field_jComboBox;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton loadTable_jButton;
     private javax.swing.JLabel name_jLabel;
