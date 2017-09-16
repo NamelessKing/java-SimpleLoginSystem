@@ -57,6 +57,8 @@ public class EmployeeInfo extends javax.swing.JFrame {
                 field_jComboBox.addItem(res.getString("Name"));
             }
             
+            field_jComboBox.setSelectedIndex(field_jComboBox.getItemCount()-1);
+            
             pst.close();
             res.close();
         } catch (Exception e) {
@@ -99,6 +101,11 @@ public class EmployeeInfo extends javax.swing.JFrame {
             }
         });
 
+        emplyeeInfo_jTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                emplyeeInfo_jTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(emplyeeInfo_jTable);
 
         eid_jLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -257,6 +264,9 @@ public class EmployeeInfo extends javax.swing.JFrame {
             //res.close();
             pst.close();
             
+            field_jComboBox.removeAllItems();
+            fillComboBox();
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -281,6 +291,9 @@ public class EmployeeInfo extends javax.swing.JFrame {
             //res.close();
             pst.close();
             
+            field_jComboBox.removeAllItems();
+            fillComboBox();
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -300,6 +313,9 @@ public class EmployeeInfo extends javax.swing.JFrame {
        
             //res.close();
             pst.close();
+            
+            field_jComboBox.removeAllItems();
+            fillComboBox();
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -332,6 +348,33 @@ public class EmployeeInfo extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_field_jComboBoxActionPerformed
+
+    private void emplyeeInfo_jTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emplyeeInfo_jTableMouseClicked
+        // TODO add your handling code here:
+        try {
+            int row = emplyeeInfo_jTable.getSelectedRow(); 
+            String EID = emplyeeInfo_jTable.getModel().getValueAt(row, 0).toString();
+            
+            String query = "SELECT * FROM EmployeeInfo WHERE EID='"+EID+"' ";
+            
+            
+            PreparedStatement pst = connection.prepareStatement(query);
+            
+            ResultSet res = pst.executeQuery();
+            
+            while(res.next()){
+                eid_jTextField.setText(res.getString("EID"));
+                name_jTextField.setText(res.getString("Name"));
+                surname_jTextField.setText(res.getString("Surname"));
+                age_jTextField.setText(res.getString("Age"));
+            }
+            
+            pst.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_emplyeeInfo_jTableMouseClicked
 
     /**
      * @param args the command line arguments
